@@ -51,7 +51,7 @@ enum CmdTypeT {
 
 fn main() {
     // 设置串口参数
-    let port_name = "/dev/tty.usbmodem1234561";
+    let port_name = "COM3";
     let baud_rate = 115200;
     // 打开串口
     match serialport::new(port_name, baud_rate)
