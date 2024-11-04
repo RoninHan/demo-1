@@ -29,7 +29,7 @@ impl PackageHeader {
 enum CmdTypeT {
     // CmdConfig = 0,
     CmdStarSearch = 1,
-    // CmdSearchRes = 2,
+    CmdSearchRes = 2,
     // CmdLightOn = 3,
     // CmdLightOff = 4,
     // CmdTestLedWithGroupLight = 5,
@@ -51,9 +51,8 @@ enum CmdTypeT {
 
 fn main() {
     // 设置串口参数
-    let port_name = "/dev/cu.usbmodem1234561";
+    let port_name = "/dev/tty.usbmodem1234561";
     let baud_rate = 115200;
-
     // 打开串口
     match serialport::new(port_name, baud_rate)
         .timeout(Duration::from_millis(1000))
@@ -68,6 +67,7 @@ fn main() {
                 r#type: CmdTypeT::CmdStarSearch, // 设置命令类型为 CMD_STAR_SEARCH
                 size: 0,                         // 设置数据大小为 0
             };
+            println!("发送数据: {:?}", encode(header.to_bytes()));
             match port.write(&header.to_bytes()) {
                 Ok(_) => println!("数据发送成功"),
                 Err(e) => eprintln!("发送数据失败: {:?}", e),
